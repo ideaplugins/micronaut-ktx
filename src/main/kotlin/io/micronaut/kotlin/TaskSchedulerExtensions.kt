@@ -5,7 +5,7 @@ import java.time.Duration
 import java.util.concurrent.Callable
 
 /**
- * Extension for [TaskScheduler.schedule] providing a `scheduleCallable("cron") { doWork() }` variant.
+ * Extension for [TaskScheduler.schedule] providing a `scheduleCallable("0 0 12 * * ?") { doWork() }` variant.
  *
  * @author Alejandro Gomez
  * @since 1.0
