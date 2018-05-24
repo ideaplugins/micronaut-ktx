@@ -11,7 +11,7 @@ import java.util.stream.Stream
  * @author Alejandro Gomez
  * @since 1.0
  */
-inline fun <reified T, BT: BeanType<T>> Qualifier<T>.reduce(candidates: Stream<BT>): Stream<BT> = reduce(T::class.java, candidates)
+inline fun <reified T, BT : BeanType<T>> Qualifier<T>.reduce(candidates: Stream<BT>): Stream<BT> = reduce(T::class.java, candidates)
 
 /**
  * Extension for [Qualifier.qualify] providing a `qualify<Foo>(candidates)` variant.
@@ -19,4 +19,4 @@ inline fun <reified T, BT: BeanType<T>> Qualifier<T>.reduce(candidates: Stream<B
  * @author Alejandro Gomez
  * @since 1.0
  */
-inline fun <reified T, BT: BeanType<T>> Qualifier<T>.qualify(candidates: Stream<BT>): Optional<BT> = qualify(T::class.java, candidates)
+inline fun <reified T, BT : BeanType<T>> Qualifier<T>.qualify(candidates: Stream<BT>): Optional<BT> = qualify(T::class.java, candidates)
