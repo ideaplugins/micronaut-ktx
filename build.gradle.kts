@@ -1,8 +1,13 @@
 import com.gradle.scan.plugin.BuildScanExtension
+import com.jfrog.bintray.gradle.BintrayExtension
 import org.gradle.testing.jacoco.plugins.JacocoPluginExtension
 import org.gradle.api.tasks.wrapper.Wrapper.DistributionType
 import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+project.group = "io.micronaut"
+project.version = "1.0.0-SNAPSHOT"
+val artifacId = project.name
 
 val kotlinVersion = plugins.getPlugin(KotlinPluginWrapper::class.java).kotlinPluginVersion
 
@@ -16,13 +21,20 @@ object Versions {
 }
 
 plugins {
-    val kotlinVersion = "1.2.50-eap-17"
-    kotlin("jvm").version(kotlinVersion)
-    kotlin("kapt").version(kotlinVersion)
+    val versions = object {
+        val kotlin = "1.2.50-eap-17"
+        val bintray = "1.8.0"
+        val ktlint = "4.0.0"
+        val buildScan = "1.13.4"
+        val detekt = "1.0.0.RC7"
+    }
+    kotlin("jvm").version(versions.kotlin)
+    kotlin("kapt").version(versions.kotlin)
     `maven-publish`
-    id("com.jfrog.bintray").version("1.8.0")
-    id("org.jlleitschuh.gradle.ktlint").version("4.0.0")
-    id("com.gradle.build-scan").version("1.13.4")
+    id("com.jfrog.bintray").version(versions.bintray)
+    id("org.jlleitschuh.gradle.ktlint").version(versions.ktlint)
+    id("com.gradle.build-scan").version(versions.buildScan)
+    id("io.gitlab.arturbosch.detekt").version(versions.detekt)
     id("jacoco")
 }
 
@@ -34,29 +46,50 @@ repositories {
 }
 
 dependencies {
-    compile(kotlin("stdlib-jdk8", kotlinVersion))
-    compile(kotlin("reflect", kotlinVersion))
-    compile("io.micronaut:http-server-netty:${Versions.micronaut}")
-    compile("io.micronaut:runtime:${Versions.micronaut}")
+    implementation(kotlin("stdlib-jdk8", kotlinVersion))
+    implementation(kotlin("reflect", kotlinVersion))
+    implementation("io.micronaut:http-server-netty:${Versions.micronaut}")
+    implementation("io.micronaut:runtime:${Versions.micronaut}")
     kapt("io.micronaut:inject-java:${Versions.micronaut}")
-    testCompile("org.junit.jupiter:junit-jupiter-api:${Versions.junit}")
-    testCompile("org.mockito:mockito-core:${Versions.mockito}")
-    testCompile("org.mockito:mockito-junit-jupiter:${Versions.mockito}")
-    testCompile("org.assertj:assertj-core:${Versions.assertj}")
-    testCompile("com.nhaarman:mockito-kotlin:${Versions.mockitoKtx}")
-    testRuntime("org.junit.jupiter:junit-jupiter-engine:${Versions.junit}")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${Versions.junit}")
+    testImplementation("org.mockito:mockito-core:${Versions.mockito}")
+    testImplementation("org.mockito:mockito-junit-jupiter:${Versions.mockito}")
+    testImplementation("org.assertj:assertj-core:${Versions.assertj}")
+    testImplementation("com.nhaarman:mockito-kotlin:${Versions.mockitoKtx}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${Versions.junit}")
     kaptTest("io.micronaut:inject-java:${Versions.micronaut}")
 }
 
 configure<BuildScanExtension> {
-    setLicenseAgreementUrl("https://gradle.com/terms-of-service")
-    setLicenseAgree("yes")
+    setTermsOfServiceUrl("https://gradle.com/terms-of-service")
+    setTermsOfServiceAgree("yes")
     value("Version", project.version.toString())
     link("VCS", "https://github.com/ideaplugins/micronaut-ktx")
 }
 
 configure<JacocoPluginExtension> {
     toolVersion = Versions.jacoco
+}
+
+fun Project.findStringProperty(key: String) = findProperty(key) as String?
+
+bintray {
+    user = project.findStringProperty("bintrayUser")
+    key = project.findStringProperty("bintrayApiKey")
+    publish = true
+    //setPublications(publicationName)
+    pkg(delegateClosureOf<BintrayExtension.PackageConfig> {
+        repo = "micronautktx"
+        name = "micronautktx"
+        userOrg = "ideaplugins"
+        websiteUrl = "https://github.com/ideaplugins/micronaut-ktx"
+        githubRepo = "ideaplugins/micronaut-ktx"
+        vcsUrl = "https://github.com/ideaplugins/micronaut-ktx"
+        description = "Extensions for using Micronaut from Kotlin"
+        setLabels("kotlin", "micronaut")
+        setLicenses("Apache 2")
+        desc = description
+    })
 }
 
 tasks {
@@ -70,7 +103,8 @@ tasks {
         useJUnitPlatform()
     }
     withType<GenerateMavenPom> {
-        //destination = file("$buildDir/libs/${jar.archiveName}.pom")
+        val archiveName = project.tasks["jar"].property("archiveName").toString().substringBeforeLast(".")
+        destination = file("$buildDir/libs/$archiveName.pom")
     }
     withType<Wrapper> {
         gradleVersion = "4.7"
