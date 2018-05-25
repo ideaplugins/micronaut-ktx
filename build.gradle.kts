@@ -41,8 +41,8 @@ plugins {
 repositories {
     jcenter()
     maven("https://dl.bintray.com/kotlin/kotlin-eap/")
+    maven("https://oss.sonatype.org/content/groups/public/")
     mavenCentral()
-    mavenLocal()
 }
 
 dependencies {
