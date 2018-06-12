@@ -111,8 +111,8 @@ publishing {
 }
 
 bintray {
-    user = project.findStringProperty("BINTRAY_USER")
-    key = project.findStringProperty("BINTRAY_KEY")
+    user = project.findStringProperty("bintrayUser")
+    key = project.findStringProperty("bintrayApiKey")
     publish = true
     setPublications("mavenJava")
     pkg(delegateClosureOf<BintrayExtension.PackageConfig> {
