@@ -22,7 +22,7 @@ object Versions {
 
 plugins {
     val versions = object {
-        val kotlin = "1.2.50-eap-17"
+        val kotlin = "1.2.50-eap-62"
         val bintray = "1.8.0"
         val ktlint = "4.0.0"
         val buildScan = "1.13.4"
