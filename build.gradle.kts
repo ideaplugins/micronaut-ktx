@@ -6,7 +6,7 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 project.group = "io.micronaut"
-project.version = "0.0.1"
+project.version = "0.0.2-SNAPSHOT"
 val artifacId = project.name
 
 fun versionFor(name: String) = project.ext["${name}.version"].toString()
