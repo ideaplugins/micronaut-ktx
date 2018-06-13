@@ -5,8 +5,7 @@ import org.gradle.api.tasks.wrapper.Wrapper.DistributionType
 import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-project.group = "io.micronaut"
-//project.version = "0.0.2-SNAPSHOT"
+project.group = "ar.com.agomez"
 val artifacId = project.name
 
 fun versionFor(name: String) = project.ext["${name}.version"].toString()
@@ -72,13 +71,6 @@ configure<JacocoPluginExtension> {
     toolVersion = versionFor("org.jacoco")
 }
 
-tasks.withType<JacocoReport> {
-    reports {
-        html.isEnabled = true
-        xml.isEnabled = true
-    }
-}
-
 fun Project.findStringProperty(key: String) = findProperty(key) as String?
 
 val sourcesJar by tasks.creating(Jar::class) {
@@ -131,16 +123,8 @@ bintray {
         name = "micronaut-ktx"
         userOrg = "agomez"
         websiteUrl = "https://github.com/ideaplugins/micronaut-ktx"
-        githubRepo = "ideaplugins/micronaut-ktx"
-        vcsUrl = "https://github.com/ideaplugins/micronaut-ktx"
         description = "Extensions for using Micronaut from Kotlin"
         setLabels("kotlin", "micronaut")
-        setLicenses("Apache 2")
-        desc = description
-        version = VersionConfig().apply {
-            name = project.version.toString()
-
-        }
     })
 }
 
@@ -153,6 +137,12 @@ tasks {
     }
     withType<Test> {
         useJUnitPlatform()
+    }
+    withType<JacocoReport> {
+        reports {
+            html.isEnabled = true
+            xml.isEnabled = true
+        }
     }
     withType<GenerateMavenPom> {
         val archiveName = project.tasks["jar"].property("archiveName").toString().substringBeforeLast(".")
