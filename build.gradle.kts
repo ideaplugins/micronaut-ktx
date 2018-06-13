@@ -23,6 +23,8 @@ plugins {
         val buildScan = "1.14"
         val detekt = "1.0.0.RC7-2"
         val dokka = "0.9.17"
+        val coveralls = "2.8.2"
+        val springRelease = "0.20.1"
     }
     kotlin("jvm").version(versions.kotlin)
     kotlin("kapt").version(versions.kotlin)
@@ -32,6 +34,8 @@ plugins {
     id("com.gradle.build-scan").version(versions.buildScan)
     id("io.gitlab.arturbosch.detekt").version(versions.detekt)
     id("org.jetbrains.dokka").version(versions.dokka)
+    id("com.github.kt3k.coveralls").version(versions.coveralls)
+    id("io.spring.release").version(versions.springRelease)
     id("jacoco")
 }
 
@@ -66,6 +70,13 @@ configure<BuildScanExtension> {
 
 configure<JacocoPluginExtension> {
     toolVersion = versionFor("org.jacoco")
+}
+
+tasks.withType<JacocoReport> {
+    reports {
+        html.isEnabled = true
+        xml.isEnabled = true
+    }
 }
 
 fun Project.findStringProperty(key: String) = findProperty(key) as String?
