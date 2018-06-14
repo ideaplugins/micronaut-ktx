@@ -16,7 +16,7 @@ val kotlinVersion = plugins.getPlugin(KotlinPluginWrapper::class.java).kotlinPlu
 
 plugins {
     val versions = object {
-        val kotlin = "1.2.50-eap-62"
+        val kotlin = "1.2.41"
         val bintray = "1.8.1"
         val ktlint = "4.0.0"
         val buildScan = "1.14"
@@ -40,7 +40,6 @@ plugins {
 
 repositories {
     jcenter()
-    maven("https://dl.bintray.com/kotlin/kotlin-eap/")
     maven("https://oss.sonatype.org/content/groups/public/")
     mavenCentral()
 }
@@ -71,7 +70,7 @@ configure<JacocoPluginExtension> {
     toolVersion = versionFor("org.jacoco")
 }
 
-fun Project.findStringProperty(key: String) = findProperty(key) as String?
+fun Project.findStringProperty(key: String) = System.getenv(key) ?: findProperty(key) as String?
 
 val sourcesJar by tasks.creating(Jar::class) {
     classifier = "sources"
@@ -114,8 +113,8 @@ publishing {
 }
 
 bintray {
-    user = project.findStringProperty("bintrayUser")
-    key = project.findStringProperty("bintrayApiKey")
+    user = project.findStringProperty("BINTRAY_USER")
+    key = project.findStringProperty("BINTRAY_KEY")
     publish = true
     setPublications("mavenJava")
     pkg(delegateClosureOf<BintrayExtension.PackageConfig> {

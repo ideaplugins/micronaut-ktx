@@ -13,6 +13,6 @@ script:
 
 deploy:
   provider: script
-  script: ./gradlew final -Prelease.scope=patch -PbintrayUser=$BINTRAY_USER -PbintrayApiKey=$BINTRAY_KEY
+  script: ./gradlew final -Prelease.scope=patch
   on:
     branch: master
