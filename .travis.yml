@@ -15,4 +15,4 @@ deploy:
   provider: script
   script: ./gradlew final -Prelease.scope=patch
   on:
-    branch: master
+    branch: none
