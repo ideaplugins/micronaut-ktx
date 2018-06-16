@@ -1,4 +1,20 @@
-package io.micronaut.kotlin
+/*
+ * Copyright 2018-present by the authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at following link.
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package ar.com.agomez.micronaut
 
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.BeanContext
@@ -13,6 +29,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertIterableEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertSame
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
@@ -34,7 +51,7 @@ class BeanContextTest {
 
     @Test
     fun createBean() {
-        val foo = context.createBean<BeanContextTest.TestFactory.Foo>()
+        val foo = context.createBean<TestFactory.Foo>()
         assertSame(TestFactory.Foo::class, foo::class)
     }
 
@@ -86,8 +103,8 @@ class BeanContextTest {
 
     @Test
     fun containsStereotyped() {
-        assertFalse((TestFactory.Qux::class to Context::class) in context)
-        assertTrue((TestFactory.Baz::class to Context::class) in context)
+        assertFalse((TestFactory.Qux::class to Prototype::class) in context)
+        assertTrue((TestFactory.Foo::class to Prototype::class) in context)
     }
 
     @Test
@@ -104,14 +121,14 @@ class BeanContextTest {
 
     @Test
     fun findBean() {
-        assertFalse(context.findBean<TestFactory.Qux>().isPresent)
-        assertTrue(context.findBean<TestFactory.Foo>().isPresent)
+        assertNull(context.findBean<TestFactory.Qux>())
+        assertNotNull(context.findBean<TestFactory.Foo>())
     }
 
     @Test
     fun findStereotypedBean() {
-        assertFalse(context.findStereotypedBean<TestFactory.Qux, Context>().isPresent)
-        assertTrue(context.findStereotypedBean<TestFactory.Foo, Prototype>().isPresent)
+        assertNull(context.findStereotypedBean<TestFactory.Qux, Context>())
+        assertNotNull(context.findStereotypedBean<TestFactory.Foo, Prototype>())
     }
 
     @Test
@@ -137,11 +154,27 @@ class BeanContextTest {
     }
 
     @Test
+    fun sequenceOfType() {
+        val bazes = context.streamOfType(TestFactory.Baz::class.java).collect(Collectors.toList())
+        assertIterableEquals(bazes, context.sequenceOfType<TestFactory.Baz>().toList())
+        val quxes = context.streamOfType(TestFactory.Qux::class.java).collect(Collectors.toList())
+        assertIterableEquals(quxes, context.sequenceOfType<TestFactory.Qux>().toList())
+    }
+
+    @Test
     fun streamOfStereotypedType() {
         val bazes = context.streamOfType(TestFactory.Baz::class.java, Qualifiers.byStereotype(Context::class.java)).collect(Collectors.toList())
         assertIterableEquals(bazes, context.streamOfStereotypedType<TestFactory.Baz, Context>().collect(Collectors.toList()))
         val quxes = context.streamOfType(TestFactory.Qux::class.java, Qualifiers.byStereotype(Context::class.java)).collect(Collectors.toList())
         assertIterableEquals(quxes, context.streamOfStereotypedType<TestFactory.Qux, Context>().collect(Collectors.toList()))
+    }
+
+    @Test
+    fun sequenceOfStereotypedType() {
+        val bazes = context.streamOfType(TestFactory.Baz::class.java, Qualifiers.byStereotype(Context::class.java)).collect(Collectors.toList())
+        assertIterableEquals(bazes, context.sequenceOfStereotypedType<TestFactory.Baz, Context>().toList())
+        val quxes = context.streamOfType(TestFactory.Qux::class.java, Qualifiers.byStereotype(Context::class.java)).collect(Collectors.toList())
+        assertIterableEquals(quxes, context.sequenceOfStereotypedType<TestFactory.Qux, Context>().toList())
     }
 
     @Test
@@ -152,8 +185,8 @@ class BeanContextTest {
 
     @Test
     fun findOrInstantiateBean() {
-        assertSame(context.findOrInstantiateBean(TestFactory.Foo::class.java)::class, context.findOrInstantiateBean<TestFactory.Foo>()::class)
-        assertSame(context.findOrInstantiateBean(TestFactory.Baz::class.java)::class, context.findOrInstantiateBean<TestFactory.Baz>()::class)
+        assertSame(context.findOrInstantiateBean(TestFactory.Foo::class.java).get()::class, context.findOrInstantiateBean<TestFactory.Foo>()!!::class)
+        assertSame(context.findOrInstantiateBean(TestFactory.Baz::class.java).get()::class, context.findOrInstantiateBean<TestFactory.Baz>()!!::class)
     }
 
     @Factory

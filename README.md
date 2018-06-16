@@ -61,12 +61,17 @@ implementation("ar.com.agomez:micronaut-ktx:x.y.z")
 ## Example
 
 ```kotlin
-val context: BeanContext = buildContext()
+val context = buildAndStart<VehiclesFactory>()
 val allEngines = context.getBeansOfType<Engine>()
 val definitions = context.getBeanDefinitions<Engine>()
 val bean = context.getBean<Vehicle>()
 val vehicle: Vehicle = context.getBean()
+scheduler.scheduleCallable("0 0 12 * * ?") {
+    doWork()
+}
 ```
+
+For more examples check the API documentation and the tests.
 
 ## License
 
