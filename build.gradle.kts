@@ -47,7 +47,6 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib-jdk8", kotlinVersion))
     implementation(kotlin("reflect", kotlinVersion))
-    implementation(dependency("io.micronaut", "http-server-netty"))
     implementation(dependency("io.micronaut", "runtime"))
     kapt(dependency("io.micronaut", "inject-java"))
     testImplementation(dependency("org.junit.jupiter", "junit-jupiter-api"))
