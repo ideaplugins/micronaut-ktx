@@ -66,7 +66,6 @@ class ApplicationContextTest {
         assertFalse(context.findBean(TestFactory.Baz::class.java).isPresent)
     }
 
-
     @Test
     fun buildAndStartWithProperties() {
         val context =
