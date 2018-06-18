@@ -60,14 +60,113 @@ implementation("ar.com.agomez:micronaut-ktx:x.y.z")
 
 ## Example
 
+### ApplicationContext extensions
+
 ```kotlin
-val context = buildAndStart<VehiclesFactory>()
-val allEngines = context.getBeansOfType<Engine>()
-val definitions = context.getBeanDefinitions<Engine>()
-val bean = context.getBean<Vehicle>()
-val vehicle: Vehicle = context.getBean()
+run<FooApplication>()
+run<FooApplication>("env1", "env2")
+run<FooApplication>(props, "env1", "env2")
+run<FooApplication>(propertySource, "env1", "env2")
+buildAndStart<FooApplication>()
+buildAndStart<FooApplication>("env1", "env2")
+buildAndStart<FooApplication>(propSrc1, propSrc2)
+buildAndStart<FooApplication>(props, "env1", "env2")
+buildAndStart<FooApplication>(propSrc, "env1", "env2")
+```
+
+### BeanContext extensions
+
+```kotlin
+val foo = context.createBean<Foo>()
+val foo: Foo = context.createBean()
+val foo = context.createBean<Foo>(args)
+val foo: Foo = context.createBean(args)
+val foo = context.createBean<Foo>(argsMap)
+val foo: Foo = context.createBean(argsMap)
+val foo = context.createStereotypedBean<Foo, Prototype>()
+val foo = context.createStereotypedBean<Foo, Prototype>(args)
+val foo = context.createStereotypedBean<Foo, Prototype>(argsMap)
+val foo = context.destroyBean<Foo>()
+val foo: Foo = context.destroyBean()
+```
+
+### BeanDefinitionRegistry extensions
+
+```kotlin
+val foo = registry.getStereotypedBeanDefinition<Foo, Prototype>()
+registry.containsBean<Foo>()
+Foo::class in registry
+registry.containsStereotypedBean<Foo, Prototype>()
+(Foo::class to Prototype::class) in registry
+val fooDefinition = registry.findStereotypedBeanDefinition<Foo, Prototype>()
+val fooDefinitions = registry.getBeanDefinitions<Foo>()
+val fooDefinitions: Collections<BeanDefinition<Foo>> = registry.getBeanDefinitions()
+val prototypeDefinitions = registry.getStereotypedBeanDefinitions<Prototype>()
+val prototypeRegistrations = registry.getStereotypedBeanRegistrations<Prototype>()
+val fooRegistrations = registry.getBeanRegistrations<Foo>()
+val fooRegistrations: Collection<BeanRegistration<Foo>> = registry.getBeanRegistrations()
+val fooDefinition = registry.findProxiedBeanDefinition<Foo, Prototype>()
+val fooDefinition = registry.getProxiedBeanDefinition<Foo, Prototype>()
+val fooDefinition = registry.getBeanDefinition<Foo>()
+val fooDefinition: BeanDefinition<Foo> = registry.getBeanDefinition()
+val fooDefinition = registry.findBeanDefinition<Foo>()
+val fooDefinition: BeanDefinition<Foo>? = registry.findBeanDefinition()
+registry.registerStereotypedSingleton<Foo, Prototype>(foo, true)
+registry.registerStereotypedSingleton<Foo, Prototype>(foo)
+registry.registerNotStereotypedSingleton<Foo>(foo)
+```
+
+### BeanLocator extensions
+
+```kotlin
+val foo = locator.getBean<Foo>()
+val foo: Foo = locator.getBean()
+val foo = locator.getStereotypedBean<Foo, Prototype>()
+val foo = locator.findBean<Foo>()
+val foo: Foo? = locator.findBean()
+val foo = locator.findStereotypedBean<Foo, Prototype>()
+val foos = locator.getBeansOfType<Foo>()
+val foos: Collection<Foo> = locator.getBeansOfType()
+val prototypeFoos = locator.getStereotypedBeansOfType<Foo, Prototype>()
+val foosStream = locator.streamOfType<Foo>()
+val foosStream: Stream<Foo> = locator.streamOfType()
+val foosSequence = locator.sequenceOfType<Foo>()
+val foosSequence: Sequence<Foo> = locator.sequenceOfType()
+val prototypeFoosStream = locator.streamOfStereotypedType<Foo, Prototype>()
+val prototypeFoosSequence = locator.sequenceOfStereotypedType<Foo, Prototype>()
+val foo = locator.getProxyTargetBean<Foo, Prototype>()
+val foo = locator.findOrInstantiateBean<Foo>()
+val foo: Foo = locator.findOrInstantiateBean()
+```
+
+### Micronaut extensions
+
+```kotlin
+mnRun<FooApplication>(args)
+```
+
+### Qualifier extensions
+
+```kotlin
+qualifier.reduce(candidates)
+qualifier.qualify(candidates)
+```
+
+### Qualifiers extensions
+
+```kotlin
+qualifierByAnnotation<Foo, Bar>(metadata)
+qualifierByStereotype<Foo, Prototype>()
+```
+
+### TaskScheduler extensions
+
+```kotlin
 scheduler.scheduleCallable("0 0 12 * * ?") {
     doWork()
+}
+scheduler.scheduleCallable(Duration.ofSeconds(5)) {
+    doMoreWork()
 }
 ```
 
