@@ -147,7 +147,7 @@ tasks {
         destination = file("$buildDir/libs/$archiveName.pom")
     }
     withType<Wrapper> {
-        gradleVersion = "4.8"
+        gradleVersion = "4.8.1"
         distributionType = DistributionType.ALL
     }
 }
