@@ -20,17 +20,6 @@ import io.micronaut.context.ApplicationContext
 import io.micronaut.context.env.PropertySource
 
 /**
- *  Top level function acting as a Kotlin shortcut allowing to write `run<Foo>()`
- *  instead of `ApplicationContext.run(Foo::class.java)`.
- *
- * @param T The type
- * @return The running bean
- * @author Alejandro Gomez
- * @since 0.0.1
- */
-inline fun <reified T> run(): T = ApplicationContext.run(T::class.java)
-
-/**
  *  Top level function acting as a Kotlin shortcut allowing to write `run<Foo>("env")`
  *  instead of `ApplicationContext.run(Foo::class.java, "env")`.
  *
@@ -71,8 +60,8 @@ inline fun <reified T> run(propertySource: PropertySource, vararg environments: 
     ApplicationContext.run(T::class.java, propertySource, *environments)
 
 /**
- *  Top level function acting as a Kotlin shortcut allowing to write `buildAndStart<Foo>()`
- *  instead of `ApplicationContext.build(Foo::class.java).start()`.
+ *  Top level function acting as a Kotlin shortcut allowing to write `buildAndStart<Foo>(mapOf("foo" to "bar"))`
+ *  instead of `ApplicationContext.build(Foo::class.java)propertySources(propSource).start()`.
  *
  * @param T The type
  * @return The running [ApplicationContext]
@@ -80,19 +69,6 @@ inline fun <reified T> run(propertySource: PropertySource, vararg environments: 
  * @since 0.0.2
  */
 inline fun <reified T> buildAndStart(): ApplicationContext = ApplicationContext.build(T::class.java).start()
-
-/**
- *  Top level function acting as a Kotlin shortcut allowing to write `buildAndStart<Foo>(mapOf("foo" to "bar"))`
- *  instead of `ApplicationContext.build(Foo::class.java, mapOf("foo" to "bar")).start()`.
- *
- * @param T The type
- * @param properties Additional properties
- * @return The running [ApplicationContext]
- * @author Alejandro Gomez
- * @since 0.0.2
- */
-inline fun <reified T> buildAndStart(properties: Map<String, Any?>): ApplicationContext =
-    ApplicationContext.build(T::class.java).properties(properties).start()
 
 /**
  *  Top level function acting as a Kotlin shortcut allowing to write `buildAndStart<Foo>(mapOf("foo" to "bar"))`

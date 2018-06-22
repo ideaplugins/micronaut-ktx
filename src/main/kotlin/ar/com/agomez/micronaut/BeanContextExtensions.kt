@@ -37,9 +37,7 @@ inline fun <reified T> BeanContext.createBean(): T = createBean(T::class.java)
  * @author Alejandro Gomez
  * @since 0.0.1
  */
-inline fun <reified T, reified Q : Annotation> BeanContext.createStereotypedBean(): T = createBean(T::class.java,
-    qualifierByStereotype<T, Q>()
-)
+inline fun <reified T, reified Q : Annotation> BeanContext.createStereotypedBean(): T = createBean(T::class.java, qualifierByStereotype<T, Q>())
 
 /**
  * Extension for [BeanContext.createBean] providing a `createStereotypedBean<Foo, Bar>(args)` variant.

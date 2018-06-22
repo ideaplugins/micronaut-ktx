@@ -51,8 +51,10 @@ class BeanContextTest {
 
     @Test
     fun createBean() {
-        val foo = context.createBean<TestFactory.Foo>()
-        assertSame(TestFactory.Foo::class, foo::class)
+        val foo1 = context.createBean<TestFactory.Foo>()
+        assertSame(TestFactory.Foo::class, foo1::class)
+        val foo2: TestFactory.Foo = context.createBean()
+        assertSame(TestFactory.Foo::class, foo2::class)
     }
 
     @Test
@@ -93,18 +95,6 @@ class BeanContextTest {
     fun destroyBean() {
         val baz = context.destroyBean<TestFactory.Baz>()
         assertSame(TestFactory.Baz::class, baz::class)
-    }
-
-    @Test
-    fun contains() {
-        assertFalse(TestFactory.Qux::class in context)
-        assertTrue(TestFactory.Baz::class in context)
-    }
-
-    @Test
-    fun containsStereotyped() {
-        assertFalse((TestFactory.Qux::class to Prototype::class) in context)
-        assertTrue((TestFactory.Foo::class to Prototype::class) in context)
     }
 
     @Test

@@ -17,8 +17,12 @@
 package ar.com.agomez.micronaut
 
 import io.micronaut.context.annotation.Factory
+import io.micronaut.context.annotation.Prototype
+import io.micronaut.context.annotation.Value
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
+import javax.inject.Singleton
 
 /**
  * @author Alejandro Gomez
@@ -27,10 +31,20 @@ class MicronautTest {
 
     @Test
     fun mnRun() {
-        val context = mnRun<TestFactory>("foo=1")
-        assertNotNull(context)
+        val context = mnRun<TestFactory>("-baz=1")
+        // TODO
+        //assertNotNull(context.getBean(TestFactory.Foo::class.java))
+        //assertEquals(1, context.getBean(TestFactory.Foo::class.java).baz)
+        assertNotNull(context.getBean(TestFactory.Bar::class.java))
     }
 
     @Factory
-    class TestFactory
+    class TestFactory {
+
+        @Prototype
+        class Foo(@Value("\${baz}") val baz: Int)
+
+        @Singleton
+        class Bar
+    }
 }
