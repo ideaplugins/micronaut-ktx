@@ -16,7 +16,7 @@ val kotlinVersion = plugins.getPlugin(KotlinPluginWrapper::class.java).kotlinPlu
 
 plugins {
     val versions = object {
-        val kotlin = "1.2.41"
+        val kotlin = "1.2.51"
         val bintray = "1.8.1"
         val ktlint = "4.0.0"
         val buildScan = "1.14"
@@ -130,7 +130,7 @@ tasks {
     withType<KotlinCompile> {
         kotlinOptions {
             jvmTarget = "1.8"
-            freeCompilerArgs = listOf("-Xjsr305=strict")
+            freeCompilerArgs = listOf("-Xjsr305=strict", "-Xprogressive", "-Xdisable-default-scripting-plugin")
         }
     }
     withType<Test> {
@@ -147,7 +147,7 @@ tasks {
         destination = file("$buildDir/libs/$archiveName.pom")
     }
     withType<Wrapper> {
-        gradleVersion = "4.8.1"
+        gradleVersion = "4.9"
         distributionType = DistributionType.ALL
     }
 }

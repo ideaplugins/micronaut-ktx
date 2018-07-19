@@ -16,6 +16,8 @@
 
 package ar.com.agomez.micronaut
 
+import io.micronaut.context.ApplicationContext
+import io.micronaut.context.ApplicationContextLifeCyle
 import io.micronaut.context.annotation.Factory
 import io.micronaut.context.annotation.Prototype
 import io.micronaut.context.annotation.Requires
@@ -117,7 +119,13 @@ class ApplicationContextTest {
     }
 
     @Factory
-    class TestFactory {
+    class TestFactory : ApplicationContextLifeCyle<TestFactory> {
+
+        override fun getApplicationContext(): ApplicationContext {
+            TODO("not implemented")
+        }
+
+        override fun isRunning() = true
 
         @Prototype
         class Foo

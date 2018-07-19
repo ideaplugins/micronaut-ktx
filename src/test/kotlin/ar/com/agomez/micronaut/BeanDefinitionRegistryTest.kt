@@ -32,7 +32,6 @@ import org.junit.jupiter.api.Assertions.assertSame
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import javax.annotation.Nullable
 import javax.inject.Singleton
 
 /**
@@ -165,7 +164,7 @@ class BeanDefinitionRegistryTest {
         @Prototype
         class Bar(@Parameter("baz") val baz: Int)
 
-        class Baz(@Nullable val foo: Foo? = null)
+        class Baz(val foo: Foo? = null)
 
         @Context
         @Requires(property = "qux.enabled")
