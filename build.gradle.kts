@@ -16,7 +16,7 @@ val kotlinVersion = plugins.getPlugin(KotlinPluginWrapper::class.java).kotlinPlu
 
 plugins {
     val versions = object {
-        val kotlin = "1.2.51"
+        val kotlin = "1.2.60"
         val bintray = "1.8.1"
         val ktlint = "4.0.0"
         val buildScan = "1.14"
@@ -127,26 +127,29 @@ bintray {
 }
 
 tasks {
-    withType<KotlinCompile> {
+    withType<KotlinCompile>().configureEach {
         kotlinOptions {
             jvmTarget = "1.8"
             freeCompilerArgs = listOf("-Xjsr305=strict", "-Xprogressive", "-Xdisable-default-scripting-plugin")
+            allWarningsAsErrors = true
+            apiVersion = "1.2"
+            languageVersion = "1.2"
         }
     }
-    withType<Test> {
+    withType<Test>().configureEach {
         useJUnitPlatform()
     }
-    withType<JacocoReport> {
+    withType<JacocoReport>().configureEach {
         reports {
             html.isEnabled = true
             xml.isEnabled = true
         }
     }
-    withType<GenerateMavenPom> {
+    withType<GenerateMavenPom>().configureEach {
         val archiveName = project.tasks["jar"].property("archiveName").toString().substringBeforeLast(".")
         destination = file("$buildDir/libs/$archiveName.pom")
     }
-    withType<Wrapper> {
+    withType<Wrapper>().configureEach {
         gradleVersion = "4.9"
         distributionType = DistributionType.ALL
     }
