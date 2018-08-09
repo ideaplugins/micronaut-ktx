@@ -130,7 +130,7 @@ tasks {
     withType<KotlinCompile>().configureEach {
         kotlinOptions {
             jvmTarget = "1.8"
-            freeCompilerArgs = listOf("-Xjsr305=strict", "-Xprogressive", "-Xdisable-default-scripting-plugin")
+            freeCompilerArgs = listOf("-Xjsr305=strict", "-Xdisable-default-scripting-plugin")
             allWarningsAsErrors = true
             apiVersion = "1.2"
             languageVersion = "1.2"

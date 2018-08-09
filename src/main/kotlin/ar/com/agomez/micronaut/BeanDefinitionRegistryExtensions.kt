@@ -111,17 +111,6 @@ inline fun <reified Q : Annotation> BeanDefinitionRegistry.getStereotypedBeanDef
     getBeanDefinitions(qualifierByStereotype<Any, Q>())
 
 /**
- * Extension for [BeanDefinitionRegistry.getBeanRegistrations] providing a `getStereotypedBeanRegistrations<Bar>()` variant.
- *
- * @param Q The stereotype type
- * @return A [Collection] of the [BeanRegistration]s
- * @author Alejandro Gomez
- * @since 0.0.1
- */
-inline fun <reified Q : Annotation> BeanDefinitionRegistry.getStereotypedBeanRegistrations(): Collection<BeanRegistration<out Any>> =
-    getBeanRegistrations(qualifierByStereotype<Any, Q>())
-
-/**
  * Extension for [BeanDefinitionRegistry.getBeanRegistrations] providing a `getBeanRegistrations<Foo>()` variant.
  *
  * @param T The bean type
@@ -130,6 +119,28 @@ inline fun <reified Q : Annotation> BeanDefinitionRegistry.getStereotypedBeanReg
  * @since 0.0.1
  */
 inline fun <reified T> BeanDefinitionRegistry.getBeanRegistrations(): Collection<BeanRegistration<T>> = getBeanRegistrations(T::class.java)
+
+/**
+ * Extension for [BeanDefinitionRegistry.getActiveBeanRegistrations] providing a `getActiveBeanRegistrations<Foo>()` variant.
+ *
+ * @param T The bean type
+ * @return A [Collection] of the [BeanRegistration]s
+ * @author Alejandro Gomez
+ * @since 0.0.6
+ */
+inline fun <reified T> BeanDefinitionRegistry.getActiveBeanRegistrations(): Collection<BeanRegistration<T>> =
+        getActiveBeanRegistrations(T::class.java)
+
+/**
+ * Extension for [BeanDefinitionRegistry.getActiveBeanRegistrations] providing a `getStereotypedActiveBeanRegistrations<Bar>()` variant.
+ *
+ * @param Q The stereotype type
+ * @return A [Collection] of the [BeanRegistration]s
+ * @author Alejandro Gomez
+ * @since 0.0.6
+ */
+inline fun <reified Q : Annotation> BeanDefinitionRegistry.getStereotypedActiveBeanRegistrations(): Collection<BeanRegistration<out Any>> =
+        getActiveBeanRegistrations(qualifierByStereotype<Any, Q>())
 
 /**
  * Extension for [BeanDefinitionRegistry.findProxiedBeanDefinition] providing a `findProxiedBeanDefinition<Foo, Bar>()` variant.

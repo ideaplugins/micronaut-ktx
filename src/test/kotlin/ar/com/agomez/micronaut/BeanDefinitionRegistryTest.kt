@@ -95,14 +95,19 @@ class BeanDefinitionRegistryTest {
     }
 
     @Test
-    fun getStereotypedBeanRegistrations() {
-        assertEquals(context.getBeanRegistrations(Qualifiers.byStereotype<Prototype>(Prototype::class.java)),
-            context.getStereotypedBeanRegistrations<Prototype>())
+    fun getActiveBeanRegistrations() {
+        assertEquals(context.getActiveBeanRegistrations(TestFactory.Foo::class.java), context.getActiveBeanRegistrations<TestFactory.Foo>())
+    }
+
+    @Test
+    fun getStereotypedActiveBeanRegistrations() {
+        assertEquals(context.getActiveBeanRegistrations(Qualifiers.byStereotype<Prototype>(Prototype::class.java)),
+            context.getStereotypedActiveBeanRegistrations<Prototype>())
     }
 
     @Test
     fun getBeanRegistrations() {
-        assertEquals(context.getBeanRegistrations(TestFactory.Foo::class.java), context.getBeanRegistrations<TestFactory.Foo>())
+        assertEquals(context.getBeanRegistrations(TestFactory.Baz::class.java), context.getBeanRegistrations<TestFactory.Baz>())
     }
 
     @Test
@@ -164,6 +169,7 @@ class BeanDefinitionRegistryTest {
         @Prototype
         class Bar(@Parameter("baz") val baz: Int)
 
+        @Singleton
         class Baz(val foo: Foo? = null)
 
         @Context
