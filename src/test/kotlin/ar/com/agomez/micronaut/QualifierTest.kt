@@ -35,9 +35,9 @@ class QualifierTest {
 
     @BeforeEach
     fun setUp() {
-        //val context = DefaultBeanContext().start()
-        //val foo = TestFactory.Foo()
-        //context.registerSingleton(foo)
+        // val context = DefaultBeanContext().start()
+        // val foo = TestFactory.Foo()
+        // context.registerSingleton(foo)
         context = ApplicationContext.build(TestFactory::class.java).start()
     }
 

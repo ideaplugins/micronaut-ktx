@@ -17,7 +17,6 @@
 package ar.com.agomez.micronaut
 
 import io.micronaut.context.ApplicationContext
-import io.micronaut.context.ApplicationContextLifeCyle
 import io.micronaut.context.env.PropertySource
 
 /**
@@ -30,7 +29,7 @@ import io.micronaut.context.env.PropertySource
  * @author Alejandro Gomez
  * @since 0.0.1
  */
-inline fun <reified T : ApplicationContextLifeCyle<*>> run(vararg environments: String): T = ApplicationContext.run(T::class.java, *environments)
+inline fun <reified T : AutoCloseable> run(vararg environments: String): T = ApplicationContext.run(T::class.java, *environments)
 
 /**
  *  Top level function acting as a Kotlin shortcut allowing to write `run<Foo>(props, "env")`
@@ -43,7 +42,7 @@ inline fun <reified T : ApplicationContextLifeCyle<*>> run(vararg environments: 
  * @author Alejandro Gomez
  * @since 0.0.1
  */
-inline fun <reified T : ApplicationContextLifeCyle<*>> run(properties: Map<String, Any?>, vararg environments: String): T =
+inline fun <reified T : AutoCloseable> run(properties: Map<String, Any?>, vararg environments: String): T =
     ApplicationContext.run(T::class.java, properties, *environments)
 
 /**
@@ -57,7 +56,7 @@ inline fun <reified T : ApplicationContextLifeCyle<*>> run(properties: Map<Strin
  * @author Alejandro Gomez
  * @since 0.0.1
  */
-inline fun <reified T : ApplicationContextLifeCyle<*>> run(propertySource: PropertySource, vararg environments: String): T =
+inline fun <reified T : AutoCloseable> run(propertySource: PropertySource, vararg environments: String): T =
     ApplicationContext.run(T::class.java, propertySource, *environments)
 
 /**

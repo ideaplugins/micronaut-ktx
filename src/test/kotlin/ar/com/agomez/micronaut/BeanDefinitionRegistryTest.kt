@@ -150,7 +150,7 @@ class BeanDefinitionRegistryTest {
         context.registerStereotypedSingleton<TestFactory.Baz, Singleton>(singleton, true)
         assertSame(singleton, context.getBean(TestFactory.Baz::class.java))
         // TODO
-        //assertNotNull(context.getBean(TestFactory.Baz::class.java).foo)
+        // assertNotNull(context.getBean(TestFactory.Baz::class.java).foo)
     }
 
     @Test

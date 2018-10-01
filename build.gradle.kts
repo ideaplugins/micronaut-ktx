@@ -4,6 +4,8 @@ import org.gradle.testing.jacoco.plugins.JacocoPluginExtension
 import org.gradle.api.tasks.wrapper.Wrapper.DistributionType
 import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jlleitschuh.gradle.ktlint.KtlintExtension
+import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 project.group = "ar.com.agomez"
 val artifacId = project.name
@@ -16,11 +18,11 @@ val kotlinVersion = plugins.getPlugin(KotlinPluginWrapper::class.java).kotlinPlu
 
 plugins {
     val versions = object {
-        val kotlin = "1.2.61"
-        val bintray = "1.8.1"
-        val ktlint = "4.0.0"
-        val buildScan = "1.14"
-        val detekt = "1.0.0.RC7-2"
+        val kotlin = "1.2.71"
+        val bintray = "1.8.4"
+        val ktlint = "6.0.0"
+        val buildScan = "1.16"
+        val detekt = "1.0.0.RC9.2"
         val dokka = "0.9.17"
         val coveralls = "2.8.2"
         val springRelease = "0.20.1"
@@ -31,7 +33,7 @@ plugins {
     id("com.jfrog.bintray").version(versions.bintray)
     id("org.jlleitschuh.gradle.ktlint").version(versions.ktlint)
     id("com.gradle.build-scan").version(versions.buildScan)
-    id("io.gitlab.arturbosch.detekt").version(versions.detekt)
+    //id("io.gitlab.arturbosch.detekt").version(versions.detekt)
     id("org.jetbrains.dokka").version(versions.dokka)
     id("com.github.kt3k.coveralls").version(versions.coveralls)
     id("io.spring.release").version(versions.springRelease)
@@ -67,6 +69,12 @@ configure<BuildScanExtension> {
 
 configure<JacocoPluginExtension> {
     toolVersion = versionFor("org.jacoco")
+}
+
+configure<KtlintExtension> {
+    verbose.set(true)
+    outputToConsole.set(true)
+    reporters.set(listOf(ReporterType.CHECKSTYLE, ReporterType.JSON))
 }
 
 fun Project.findStringProperty(key: String) = System.getenv(key) ?: findProperty(key) as String?
@@ -126,11 +134,19 @@ bintray {
     })
 }
 
+/*
+detekt {
+    config = files("$rootDir/detekt-config.yml")
+    disableDefaultRuleSets = true
+    debug = true
+}
+*/
+
 tasks {
     withType<KotlinCompile>().configureEach {
         kotlinOptions {
             jvmTarget = "1.8"
-            freeCompilerArgs = listOf("-Xjsr305=strict", "-Xdisable-default-scripting-plugin")
+            freeCompilerArgs = listOf("-Xjsr305=strict", "-Xprogressive", "-Xdisable-default-scripting-plugin")
             allWarningsAsErrors = true
             apiVersion = "1.2"
             languageVersion = "1.2"
@@ -138,6 +154,7 @@ tasks {
     }
     withType<Test>().configureEach {
         useJUnitPlatform()
+        finalizedBy(project.tasks["jacocoTestReport"])
     }
     withType<JacocoReport>().configureEach {
         reports {
