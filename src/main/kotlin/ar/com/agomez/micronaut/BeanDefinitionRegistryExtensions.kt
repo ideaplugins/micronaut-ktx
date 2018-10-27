@@ -143,28 +143,40 @@ inline fun <reified Q : Annotation> BeanDefinitionRegistry.getStereotypedActiveB
         getActiveBeanRegistrations(qualifierByStereotype<Any, Q>())
 
 /**
- * Extension for [BeanDefinitionRegistry.findProxiedBeanDefinition] providing a `findProxiedBeanDefinition<Foo, Bar>()` variant.
+ * Extension for [BeanDefinitionRegistry.findProxyTargetBeanDefinition] providing a `findProxyTargetBeanDefinition<Foo, Bar>()` variant.
  *
  * @param T The bean type
  * @param Q The stereotype type
  * @return The original [BeanDefinition] or null if not present
  * @author Alejandro Gomez
- * @since 0.0.1
+ * @since 0.0.9
  */
-inline fun <reified T, reified Q : Annotation> BeanDefinitionRegistry.findProxiedBeanDefinition(): BeanDefinition<T>? =
-    findProxiedBeanDefinition(T::class.java, qualifierByStereotype<T, Q>()).orElse(null)
+inline fun <reified T, reified Q : Annotation> BeanDefinitionRegistry.findProxyTargetBeanDefinition(): BeanDefinition<T>? =
+        findProxyTargetBeanDefinition(T::class.java, qualifierByStereotype<T, Q>()).orElse(null)
 
 /**
- * Extension for [BeanDefinitionRegistry.getProxiedBeanDefinition] providing a `getProxiedBeanDefinition<Foo, Bar>()` variant.
+ * Extension for [BeanDefinitionRegistry.findProxyBeanDefinition] providing a `findProxyBeanDefinition<Foo, Bar>()` variant.
+ *
+ * @param T The bean type
+ * @param Q The stereotype type
+ * @return The original [BeanDefinition] or null if not present
+ * @author Alejandro Gomez
+ * @since 0.0.9
+ */
+inline fun <reified T, reified Q : Annotation> BeanDefinitionRegistry.findProxyBeanDefinition(): BeanDefinition<T>? =
+    findProxyBeanDefinition(T::class.java, qualifierByStereotype<T, Q>()).orElse(null)
+
+/**
+ * Extension for [BeanDefinitionRegistry.getProxyTargetBeanDefinition] providing a `getProxyTargetBeanDefinition<Foo, Bar>()` variant.
  *
  * @param T The bean type
  * @param Q The stereotype type
  * @return The original [BeanDefinition]
  * @author Alejandro Gomez
- * @since 0.0.1
+ * @since 0.0.9
  */
-inline fun <reified T, reified Q : Annotation> BeanDefinitionRegistry.getProxiedBeanDefinition(): BeanDefinition<T> =
-    getProxiedBeanDefinition(T::class.java, qualifierByStereotype<T, Q>())
+inline fun <reified T, reified Q : Annotation> BeanDefinitionRegistry.getProxyTargetBeanDefinition(): BeanDefinition<T> =
+        getProxyTargetBeanDefinition(T::class.java, qualifierByStereotype<T, Q>())
 
 /**
  * Extension for [BeanDefinitionRegistry.getBeanDefinition] providing a `getBeanDefinition<Bar>()` variant.

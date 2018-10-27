@@ -111,15 +111,21 @@ class BeanDefinitionRegistryTest {
     }
 
     @Test
-    fun findProxiedBeanDefinition() {
-        assertEquals(context.findProxiedBeanDefinition(TestFactory.Foo::class.java, Qualifiers.byStereotype<TestFactory.Foo>(Prototype::class.java))
-            .orElse(null), context.findProxiedBeanDefinition<TestFactory.Foo, Prototype>())
+    fun findProxyTargetBeanDefinition() {
+        assertEquals(context.findProxyTargetBeanDefinition(TestFactory.Foo::class.java, Qualifiers.byStereotype<TestFactory.Foo>(Prototype::class.java))
+            .orElse(null), context.findProxyTargetBeanDefinition<TestFactory.Foo, Prototype>())
     }
 
     @Test
-    fun getProxiedBeanDefinition() {
-        assertEquals(context.getProxiedBeanDefinition(TestFactory.Foo::class.java, Qualifiers.byStereotype<TestFactory.Foo>(Prototype::class.java)),
-            context.getProxiedBeanDefinition<TestFactory.Foo, Prototype>())
+    fun findProxyBeanDefinition() {
+        assertEquals(context.findProxyBeanDefinition(TestFactory.Foo::class.java, Qualifiers.byStereotype<TestFactory.Foo>(Prototype::class.java))
+            .orElse(null), context.findProxyBeanDefinition<TestFactory.Foo, Prototype>())
+    }
+
+    @Test
+    fun getProxyTargetBeanDefinition() {
+        assertEquals(context.getProxyTargetBeanDefinition(TestFactory.Foo::class.java, Qualifiers.byStereotype<TestFactory.Foo>(Prototype::class.java)),
+            context.getProxyTargetBeanDefinition<TestFactory.Foo, Prototype>())
     }
 
     @Test

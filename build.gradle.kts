@@ -20,7 +20,7 @@ plugins {
     val versions = object {
         val kotlin = "1.2.71"
         val bintray = "1.8.4"
-        val ktlint = "6.0.0"
+        val ktlint = "6.2.0"
         val buildScan = "1.16"
         val detekt = "1.0.0.RC9.2"
         val dokka = "0.9.17"
@@ -49,15 +49,16 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib-jdk8", kotlinVersion))
     implementation(kotlin("reflect", kotlinVersion))
-    implementation(dependency("io.micronaut", "runtime"))
-    kapt(dependency("io.micronaut", "inject-java"))
+    implementation(dependency("io.micronaut", "micronaut-runtime"))
+    kapt(dependency("io.micronaut", "micronaut-inject-java"))
+    testImplementation(dependency("io.micronaut.test", "micronaut-test-junit5"))
     testImplementation(dependency("org.junit.jupiter", "junit-jupiter-api"))
     testImplementation(dependency("org.mockito", "mockito-core"))
     testImplementation(dependency("org.mockito", "mockito-junit-jupiter"))
     testImplementation(dependency("org.assertj", "assertj-core"))
     testImplementation(dependency("com.nhaarman", "mockito-kotlin"))
     testRuntimeOnly(dependency("org.junit.jupiter", "junit-jupiter-engine"))
-    kaptTest(dependency("io.micronaut", "inject-java"))
+    kaptTest(dependency("io.micronaut", "micronaut-inject-java"))
 }
 
 configure<BuildScanExtension> {
@@ -146,7 +147,7 @@ tasks {
     withType<KotlinCompile>().configureEach {
         kotlinOptions {
             jvmTarget = "1.8"
-            freeCompilerArgs = listOf("-Xjsr305=strict", "-Xprogressive", "-Xdisable-default-scripting-plugin")
+            freeCompilerArgs = listOf("-Xjsr305=strict", "-Xdisable-default-scripting-plugin")
             allWarningsAsErrors = true
             apiVersion = "1.2"
             languageVersion = "1.2"

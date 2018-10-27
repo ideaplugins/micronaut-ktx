@@ -16,7 +16,6 @@
 
 package ar.com.agomez.micronaut
 
-import io.micronaut.context.ApplicationContext
 import io.micronaut.context.BeanContext
 import io.micronaut.context.annotation.Context
 import io.micronaut.context.annotation.Factory
@@ -25,27 +24,25 @@ import io.micronaut.context.annotation.Prototype
 import io.micronaut.context.annotation.Requires
 import io.micronaut.context.exceptions.NoSuchBeanException
 import io.micronaut.inject.qualifiers.Qualifiers
+import io.micronaut.test.annotation.MicronautTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertIterableEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertSame
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.util.stream.Collectors
+import javax.inject.Inject
 
 /**
  * @author Alejandro Gomez
  */
+@MicronautTest
 class BeanContextTest {
 
+    @Inject
     private lateinit var context: BeanContext
-
-    @BeforeEach
-    fun setUp() {
-        context = ApplicationContext.build(TestFactory::class.java).start()
-    }
 
     @Test
     fun createBean() {

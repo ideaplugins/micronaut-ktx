@@ -30,3 +30,24 @@ import io.micronaut.runtime.Micronaut
  * @since 0.0.3
  */
 inline fun <reified T> mnRun(vararg args: String): ApplicationContext = Micronaut.run(T::class.java, *args)
+
+/**
+ * Extension for [Micronaut.mainClass] providing a `mainClass<Foo>()` variant.
+ *
+ * @param T The main class
+ * @return This builder
+ * @author Alejandro Gomez
+ * @since 0.0.9
+ */
+inline fun <reified T> Micronaut.mainClass(): Micronaut = mainClass(T::class.java)
+
+/**
+ * Extension for [Micronaut.mapError] providing a `mapError<FooException>(mapper)` variant.
+ *
+ * @param T The exception type
+ * @param mapper The mapper
+ * @return This application
+ * @author Alejandro Gomez
+ * @since 0.0.9
+ */
+inline fun <reified T : Exception> Micronaut.mapError(noinline mapper: (T) -> Int): Micronaut = mapError(T::class.java, mapper)
