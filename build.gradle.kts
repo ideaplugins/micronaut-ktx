@@ -56,7 +56,7 @@ dependencies {
     testImplementation(dependency("org.mockito", "mockito-core"))
     testImplementation(dependency("org.mockito", "mockito-junit-jupiter"))
     testImplementation(dependency("org.assertj", "assertj-core"))
-    testImplementation(dependency("com.nhaarman", "mockito-kotlin"))
+    testImplementation(dependency("com.nhaarman.mockitokotlin2", "mockito-kotlin"))
     testRuntimeOnly(dependency("org.junit.jupiter", "junit-jupiter-engine"))
     kaptTest(dependency("io.micronaut", "micronaut-inject-java"))
 }
