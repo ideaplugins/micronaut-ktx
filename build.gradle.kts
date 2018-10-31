@@ -18,7 +18,7 @@ val kotlinVersion = plugins.getPlugin(KotlinPluginWrapper::class.java).kotlinPlu
 
 plugins {
     val versions = object {
-        val kotlin = "1.2.71"
+        val kotlin = "1.2.61"
         val bintray = "1.8.4"
         val ktlint = "6.2.0"
         val buildScan = "1.16"
