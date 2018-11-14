@@ -141,6 +141,10 @@ detekt {
     debug = true
 }
 
+coveralls {
+    sourceDirs = sourceDirs + "src/main/kotlin"
+}
+
 tasks {
     withType<KotlinCompile>().configureEach {
         kotlinOptions {
