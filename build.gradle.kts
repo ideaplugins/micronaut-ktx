@@ -20,9 +20,9 @@ plugins {
     val versions = object {
         val kotlin = "1.2.61"
         val bintray = "1.8.4"
-        val ktlint = "6.3.0"
+        val ktlint = "6.3.1"
         val buildScan = "1.16"
-        val detekt = "1.0.0-RC10"
+        val detekt = "1.0.0-RC12"
         val dokka = "0.9.17"
         val coveralls = "2.8.2"
         val springRelease = "0.20.1"
